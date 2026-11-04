@@ -177,3 +177,11 @@ Real specification-stage errors corrected:
 - Single observation treated as Flat/zero change and stale windows shifted to old dates: unknown comparative metrics and today-anchored periods specified.
 
 Android SDK exists; Pixel_5 configuration uses API 34/google_apis/x86_64. adb showed no running device. No Android app/build/tests yet. The student's substantive personal comparison of Python and Kotlin stays pending until actual implementation; specification review is not that experience.
+
+## Phase1 factual update · 04.11.2026
+
+OpenAI Codex generated the new Kotlin implementation, portable XML parser, Room repository, Compose UI and focused tests. Android Studio/Pixel5 supplied the emulator; Gradle/JDK17 built APKs. Exact model name is not independently recorded here. No Lab3 code or fixtures were reused.
+
+Actual results:19 JVM tests and6 deterministic Android checks passed;2 opt-in smoke cases are skipped in routine runs and each passed separately (real BNM; persistent cache after process restart without network). Gradle UTP failed to receive results; a documented direct instrumentation script was used. Compose semantics merging and exact-versus-substring assertions caused early UI test failures and were corrected. APK runs on Pixel5 API34. Graphs/statistics and Appium E2E remain future stages.
+
+These are factual development observations, not the student's personal experience. The substantive comparison of learning/working with Python versus Kotlin must still be completed by the student after using and explaining the application.
