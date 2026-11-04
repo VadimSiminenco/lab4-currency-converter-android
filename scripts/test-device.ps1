@@ -1,10 +1,12 @@
 param(
     [Parameter(Mandatory = $true)][string]$Serial,
     [switch]$LiveBnm,
-    [switch]$OfflineCache
+    [switch]$OfflineCache,
+    [switch]$LiveAnalytics,
+    [switch]$OfflineAnalytics
 )
 $ErrorActionPreference = 'Stop'
-if ($LiveBnm -and $OfflineCache) { throw 'Choose either LiveBnm or OfflineCache.' }
+if ((@($LiveBnm,$OfflineCache,$LiveAnalytics,$OfflineAnalytics) | Where-Object { $_ }).Count -gt 1) { throw 'Choose only one opt-in smoke-test mode.' }
 $restoreNetwork = $false
 $projectDirectory = Split-Path -Parent $PSScriptRoot
 Push-Location $projectDirectory
@@ -24,7 +26,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Test application installation failed.' }
     $instrumentArguments = @('-s', $Serial, 'shell', 'am', 'instrument', '-w')
     if ($LiveBnm) { $instrumentArguments += @('-e', 'liveBnm', 'true', '-e', 'class', 'md.bnm.currencyconverter.LiveBnmSmokeTest#liveConversionShowsAmountSourceAndEffectiveDate') }
-    if ($OfflineCache) {
+    if ($LiveAnalytics) { $instrumentArguments += @('-e', 'liveAnalytics', 'true', '-e', 'class', 'md.bnm.currencyconverter.LiveAnalyticsSmokeTest#liveHistoryRendersWeeklyAndMonthlyCharts') }
+    if ($OfflineCache -or $OfflineAnalytics) {
         if ($Serial -notmatch '^emulator-') { throw 'OfflineCache changes emulator networking; use an emulator serial only.' }
         $previousAirplane = (& $adb -s $Serial shell settings get global airplane_mode_on | Out-String).Trim()
         $previousWifi = (& $adb -s $Serial shell settings get global wifi_on | Out-String).Trim()
@@ -35,7 +38,11 @@ try {
         & $adb -s $Serial shell svc wifi disable
         if ($LASTEXITCODE -ne 0) { throw 'Could not disable emulator Wi-Fi.' }
         & $adb -s $Serial shell am force-stop md.bnm.currencyconverter
-        $instrumentArguments += @('-e', 'offlineBnm', 'true', '-e', 'class', 'md.bnm.currencyconverter.LiveBnmSmokeTest#offlineConversionUsesPersistentRoomData')
+        if ($OfflineAnalytics) {
+            $instrumentArguments += @('-e','offlineAnalytics','true','-e','class','md.bnm.currencyconverter.LiveAnalyticsSmokeTest#savedAnalyticsSurviveProcessRelaunchWithoutNetwork')
+        } else {
+            $instrumentArguments += @('-e', 'offlineBnm', 'true', '-e', 'class', 'md.bnm.currencyconverter.LiveBnmSmokeTest#offlineConversionUsesPersistentRoomData')
+        }
     }
     $instrumentArguments += 'md.bnm.currencyconverter.test/androidx.test.runner.AndroidJUnitRunner'
     $result = (& $adb @instrumentArguments 2>&1 | Out-String)

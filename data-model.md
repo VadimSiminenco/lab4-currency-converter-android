@@ -289,10 +289,10 @@ sealed class ScreenState<out T> {
 | `RateEntity` → `ExchangeRate` | `data/repository/RateRepositoryImpl` |
 | `List<ExchangeRate>` → `AnalyticsResult` | `domain/usecase/GetAnalyticsUseCase` |
 | `List<ExchangeRate>` → `List<ChartPoint>` | `ui/analytics*/AnalyticsViewModel` |
-| `BigDecimal` → `Float` | Only in ViewModel before passing to composable |
+| `BigDecimal` → `Double` | Only in RateLineChart, at the final rendering boundary |
 
 > [!CAUTION]
-> `BigDecimal` → `Float` conversion MUST occur exclusively in the ViewModel mapping layer, never inside domain use cases or the repository. Loss of precision in `Float` is acceptable only for chart rendering.
+> Floating-point conversion is confined to the final chart-rendering boundary in Compose, matching the revised specification. Domain use cases, repository and statistics retain BigDecimal. Vico2.2.0 accepts Double coordinates.
 
 ---
 
@@ -320,3 +320,7 @@ sealed class ScreenState<out T> {
 - Ready UI data includes typed cached content, refreshing flag and recoverable warning. Error holds no usable data; do not use Any or undeclared generic T.
 - Success metadata: sourceName, effectiveDate, fetchedAt, origin remote/cache and warnings. SameCurrency preserves input and has no official lookup date.
 - Use exact decimal strings and DECIMAL128 for non-terminating divisions, monetary display2 HALF_UP, percentage4, reference rate6. Input length<=64, plain decimal only, no grouping/exponents; existing maximum1B retained.
+
+## Implemented analytics mapping · Phase2
+
+GetAnalytics selects actual snapshots inside AnalyticsPeriod, resolves duplicate effective dates by newest fetchedAt and joins both currency rates on that date. PairObservation feeds StatisticsCalculator and the chart. Room Flow updates AnalyticsViewModel; no second network loader is created for analytics. A shared parameterized ViewModel/Screen serves both periods. Room entity schema remains version1; no cache clearing or destructive migration.

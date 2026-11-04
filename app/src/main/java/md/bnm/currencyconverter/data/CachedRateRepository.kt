@@ -50,6 +50,8 @@ class CachedRateRepository(
     }
     override suspend fun cached(date: LocalDate) = local.latestOnOrBefore(date)
     override suspend fun history(start: LocalDate, end: LocalDate) = local.inPeriod(start, end)
+    override fun observeHistory(start: LocalDate, end: LocalDate) = local.observePeriod(start, end)
+    override fun observeFetchRecords(start: LocalDate, end: LocalDate) = local.observeFetchRecords(start, end)
     override suspend fun refreshHistory(today: LocalDate, force: Boolean, progress: (HistoryProgress) -> Unit): HistoryRefresh = coroutineScope {
         val completed = AtomicInteger(0)
         val failures = AtomicInteger(0)

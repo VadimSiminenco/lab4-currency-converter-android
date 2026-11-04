@@ -28,13 +28,13 @@ import java.text.DecimalFormatSymbols
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private val Pine = Color(0xFF087F67)
-private val Ink = Color(0xFF172C2A)
-private val Muted = Color(0xFF64746D)
+internal val Pine = Color(0xFF087F67)
+internal val Ink = Color(0xFF172C2A)
+internal val Muted = Color(0xFF64746D)
 private val Paper = Color(0xFFF4F6F1)
-private val Mist = Color(0xFFE8F2EB)
+internal val Mist = Color(0xFFE8F2EB)
 private val Gold = Color(0xFFFFF3D8)
-private val dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH)
+internal val dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH)
 private fun money(value: BigDecimal): String = DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale.US)).apply {
     maximumFractionDigits = maxOf(2, value.scale())
 }.format(value)
@@ -43,6 +43,7 @@ private fun money(value: BigDecimal): String = DecimalFormat("#,##0.00", Decimal
 fun CurrencyApp(
     state: ConverterUiState, onAmount: (String) -> Unit, onSource: (Currency) -> Unit,
     onTarget: (Currency) -> Unit, onSwap: () -> Unit, onConvert: () -> Unit, onRefresh: () -> Unit,
+    analyticsContent: (@Composable (Int) -> Unit)? = null,
 ) {
     MaterialTheme(colorScheme = lightColorScheme(primary = Pine, background = Paper, surface = Color.White,
         onBackground = Ink, onSurface = Ink, secondaryContainer = Mist, onSecondaryContainer = Pine)) {
@@ -61,15 +62,21 @@ fun CurrencyApp(
             }) { padding ->
             NavHost(nav, startDestination = "converter", modifier = Modifier.padding(padding)) {
                 composable("converter") { ConverterScreen(state, onAmount, onSource, onTarget, onSwap, onConvert, onRefresh) }
-                composable("week") { AnalyticsPlaceholder(7, state, onRefresh) }
-                composable("month") { AnalyticsPlaceholder(30, state, onRefresh) }
+                composable("week") {
+                    if (analyticsContent != null) analyticsContent(7)
+                    else AnalyticsScreen(AnalyticsUiState(md.bnm.currencyconverter.domain.AnalyticsPeriod(7, java.time.LocalDate.now())), {}, {}, {}, onRefresh)
+                }
+                composable("month") {
+                    if (analyticsContent != null) analyticsContent(30)
+                    else AnalyticsScreen(AnalyticsUiState(md.bnm.currencyconverter.domain.AnalyticsPeriod(30, java.time.LocalDate.now())), {}, {}, {}, onRefresh)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun Brand() {
+internal fun Brand() {
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         Box(Modifier.size(36.dp).clip(RoundedCornerShape(11.dp)).background(Pine), contentAlignment = Alignment.Center) {
             Text("⇄", color = Color.White, fontSize = 27.sp)
@@ -143,7 +150,7 @@ fun ConverterScreen(
 }
 
 @Composable
-private fun CurrencyPicker(label: String, currency: Currency, onSelect: (Currency) -> Unit, tag: String, modifier: Modifier) {
+internal fun CurrencyPicker(label: String, currency: Currency, onSelect: (Currency) -> Unit, tag: String, modifier: Modifier) {
     var expanded by remember { mutableStateOf(false) }
     Column(modifier) {
         Text(label, color = Muted, fontSize = 12.sp)
@@ -191,7 +198,7 @@ private fun Metadata(label: String, value: String, tag: String) {
     }
 }
 @Composable
-private fun Notice(message: String, error: Boolean, tag: String) {
+internal fun Notice(message: String, error: Boolean, tag: String) {
     Surface(color = if (error) Color(0xFFFFEBE9) else Gold, shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth().testTag(tag)) {
         Text(message, Modifier.padding(14.dp), color = if (error) Color(0xFF8C2923) else Color(0xFF735113), fontSize = 12.sp, lineHeight = 18.sp)
     }
@@ -212,15 +219,5 @@ private fun SavedDataCard(state: ConverterUiState, onRefresh: () -> Unit) {
         }
         state.historyWarning?.let { Notice(it, false, "history_warning") }
         Text("Saved data remains available after you close the app.", color = Muted, fontSize = 11.sp)
-    }
-}
-@Composable
-private fun AnalyticsPlaceholder(days: Int, state: ConverterUiState, onRefresh: () -> Unit) {
-    Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.spacedBy(22.dp)) {
-        Brand()
-        Text("Your $days-day view", color = Ink, fontSize = 30.sp, fontWeight = FontWeight.Bold)
-        Text("Trends take a little perspective.", color = Pine, fontSize = 17.sp)
-        Text("Charts and comparison statistics are coming next. Your saved history is being prepared.", color = Muted, fontSize = 14.sp, lineHeight = 22.sp)
-        SavedDataCard(state, onRefresh)
     }
 }
