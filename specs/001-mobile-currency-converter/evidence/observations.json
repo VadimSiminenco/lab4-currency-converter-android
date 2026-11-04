@@ -1,0 +1,109 @@
+[
+  {
+    "requestedDate": "01.11.2026",
+    "url": "https://www.bnm.md/en/official_exchange_rates?get_xml=1&date=01.11.2026",
+    "httpStatus": 200,
+    "root": "ValCurs",
+    "effectiveDate": "01.11.2026",
+    "entries": 40,
+    "capturedAtUtc": "2026-11-04T11:38:17.825662+00:00",
+    "bodyFile": "bnm-01.11.2026.xml",
+    "sha256": "019a3f4eb4c1ee86857093a5171797d9fa12c4082627e7ba7008362abbff89de",
+    "selectedRates": {
+      "EUR": {
+        "nominal": "1",
+        "value": "20.0954"
+      },
+      "USD": {
+        "nominal": "1",
+        "value": "18.0365"
+      },
+      "RON": {
+        "nominal": "1",
+        "value": "3.7602"
+      },
+      "UAH": {
+        "nominal": "1",
+        "value": "0.3960"
+      },
+      "JPY": {
+        "nominal": "100",
+        "value": "11.4143"
+      }
+    }
+  },
+  {
+    "requestedDate": "04.11.2026",
+    "url": "https://www.bnm.md/en/official_exchange_rates?get_xml=1&date=04.11.2026",
+    "httpStatus": 200,
+    "root": "ValCurs",
+    "effectiveDate": "04.11.2026",
+    "entries": 40,
+    "capturedAtUtc": "2026-11-04T11:38:17.548447+00:00",
+    "bodyFile": "bnm-04.11.2026.xml",
+    "sha256": "84ebefee52296f0863845f47c0b9b436c46fdfa6feaea913de5413f352a30a17",
+    "selectedRates": {
+      "EUR": {
+        "nominal": "1",
+        "value": "20.1960"
+      },
+      "USD": {
+        "nominal": "1",
+        "value": "18.0644"
+      },
+      "RON": {
+        "nominal": "1",
+        "value": "3.7799"
+      },
+      "UAH": {
+        "nominal": "1",
+        "value": "0.3957"
+      },
+      "JPY": {
+        "nominal": "100",
+        "value": "11.4144"
+      }
+    }
+  },
+  {
+    "requestedDate": "06.10.2026",
+    "url": "https://www.bnm.md/en/official_exchange_rates?get_xml=1&date=06.10.2026",
+    "httpStatus": 200,
+    "root": "ValCurs",
+    "effectiveDate": "06.10.2026",
+    "entries": 40,
+    "capturedAtUtc": "2026-11-04T11:38:17.888177+00:00",
+    "bodyFile": "bnm-06.10.2026.xml",
+    "sha256": "1879b8f69e47e346cfe429d1ebcfc15c3d4560b96cffb6ae9ecd04f027f201f3",
+    "selectedRates": {
+      "EUR": {
+        "nominal": "1",
+        "value": "20.0840"
+      },
+      "USD": {
+        "nominal": "1",
+        "value": "17.9297"
+      },
+      "RON": {
+        "nominal": "1",
+        "value": "3.7654"
+      },
+      "UAH": {
+        "nominal": "1",
+        "value": "0.3978"
+      },
+      "JPY": {
+        "nominal": "100",
+        "value": "11.3552"
+      }
+    }
+  },
+  {
+    "requestedDate": "05.11.2026",
+    "url": "https://www.bnm.md/en/official_exchange_rates?get_xml=1&date=05.11.2026",
+    "httpStatus": 404,
+    "checkedAtUtc": "2026-11-04T11:38:17Z",
+    "bodyFile": null,
+    "note": "HTTP404 observed; response body not saved; no verified Errors XML claim."
+  }
+]
