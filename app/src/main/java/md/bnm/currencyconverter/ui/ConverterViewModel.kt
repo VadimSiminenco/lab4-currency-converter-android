@@ -26,7 +26,17 @@ class ConverterViewModel(private val repository: RateRepository, private val clo
     private val converter = ConvertCurrency(repository)
     private var conversionJob: Job? = null
     private var historyJob: Job? = null
+    private var referenceDay = LocalDate.now(clock)
     init { refreshHistory() }
+    fun syncDay() {
+        val today = LocalDate.now(clock)
+        if (today != referenceDay) {
+            referenceDay = today
+            historyJob?.cancel(); historyJob = null
+            edit { it }
+            refreshHistory()
+        }
+    }
     private fun edit(change: (ConverterUiState) -> ConverterUiState) {
         conversionJob?.cancel()
         mutableState.update { change(it).copy(result = null, error = null, converting = false) }
@@ -57,6 +67,7 @@ class ConverterViewModel(private val repository: RateRepository, private val clo
             mutableState.update { it.copy(historyRefreshing = true, historyProgress = 0, historyFailures = 0, historyWarning = null) }
             try {
                 val today = LocalDate.now(clock)
+                referenceDay = today
                 mutableState.update { it.copy(savedDate = repository.cached(today)?.date) }
                 val refreshed = repository.refreshHistory(today, force) { progress ->
                     mutableState.update { it.copy(historyProgress = maxOf(it.historyProgress, progress.completed), historyFailures = progress.failures) }

@@ -1,6 +1,6 @@
 # Task List — Lab 4: Mobile Currency Converter
 
-**Version:** 1.1.0 (2026-11-04)  
+**Version:** 1.2.0 (2026-11-04)
 Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = blocked
 
 ---
@@ -31,7 +31,7 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 | 1.4 | Choose constructor injection; add Hilt only if justified; pin compatible KSP when required | `feature/base-app` | [x] |
 | 1.5 | Add Room runtime + KSP | `feature/base-app` | [x] |
 | 1.6 | Add OkHttp, Kotlin Coroutines | `feature/base-app` | [x] |
-| 1.7 | Add chart library with analytics implementation (deferred to feature/analytics) | `feature/base-app` | [ ] |
+| 1.7 | Add chart library with analytics implementation (deferred to feature/analytics) | `feature/base-app` | [x] |
 | 1.8 | Implement `Currency` enum (6 currencies) | `feature/base-app` | [x] |
 | 1.9 | Implement `RateEntity` + `RateDao` + `AppDatabase` (Room) | `feature/base-app` | [x] |
 | 1.10 | Persist decimal Strings with explicit domain/entity mapping (no redundant TypeConverter) | `feature/base-app` | [x] |
@@ -52,7 +52,7 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 | 1.25 | Enable root Compose semantics testTagsAsResourceId; no Manifest meta-data | `feature/base-app` | [x] |
 | 1.26 | Add `testTag` modifiers to all interactive elements in `ConverterScreen` | `feature/base-app` | [x] |
 | 1.27 | Verify app builds and runs on Pixel 5 emulator; converter screen functional | `feature/base-app` | [x] |
-| 1.28 | Create PR: `feature/base-app` → `main` | — | [ ] |
+| 1.28 | Create PR: `feature/base-app` → `main` | — | [x] |
 
 ---
 
@@ -60,25 +60,25 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 
 | # | Task | Branch | Status |
 |---|------|--------|--------|
-| 2.1 | Implement `ExchangeRate` domain model | `feature/analytics` | [ ] |
-| 2.2 | Implement `AnalyticsResult` sealed class (InsufficientData / SinglePoint / Full) | `feature/analytics` | [ ] |
-| 2.3 | Implement `Trend` enum with `displayText()` | `feature/analytics` | [ ] |
-| 2.4 | Implement `StatisticsCalculator`: min, max, mean, delta, percent (nullable), trend | `feature/analytics` | [ ] |
-| 2.5 | Implement empty-set guard → `InsufficientData` (NOT zeros) | `feature/analytics` | [ ] |
-| 2.6 | Implement single-point guard → `SinglePoint` with notice | `feature/analytics` | [ ] |
-| 2.7 | Implement zero-base guard → `percent = null` with message | `feature/analytics` | [ ] |
-| 2.8 | Implement `GetAnalyticsUseCase` (window calculation, calls `StatisticsCalculator`) | `feature/analytics` | [ ] |
-| 2.9 | Implement `Analytics7ViewModel` with `StateFlow<AnalyticsUiState>` | `feature/analytics` | [ ] |
-| 2.10 | Implement `Analytics30ViewModel` | `feature/analytics` | [ ] |
-| 2.11 | Map BigDecimal to chart-only Float/Double and actual relative date offsets in presentation | `feature/analytics` | [ ] |
-| 2.12 | Implement `Analytics7Screen` composable (chart, stats cards, states) | `feature/analytics` | [ ] |
-| 2.13 | Implement `Analytics30Screen` composable | `feature/analytics` | [ ] |
-| 2.14 | Implement `StatCard` composable (label + value card) | `feature/analytics` | [ ] |
-| 2.15 | Implement `RateLineChart` composable using Vico (dates on X, rate on Y) | `feature/analytics` | [ ] |
-| 2.16 | Implement trend text display ("↑ Rising" / "↓ Falling" / "→ No change") | `feature/analytics` | [ ] |
-| 2.17 | Implement incomplete data notice composable | `feature/analytics` | [ ] |
-| 2.18 | Add `testTag` modifiers to all analytics elements | `feature/analytics` | [ ] |
-| 2.19 | Verify 7-day and 30-day screens fully functional on emulator after first data load | `feature/analytics` | [ ] |
+| 2.1 | Implement dated `PairObservation` domain model | `feature/analytics` | [x] |
+| 2.2 | Implement `AnalyticsResult` sealed class (InsufficientData / SinglePoint / Full) | `feature/analytics` | [x] |
+| 2.3 | Implement `Trend` enum with `displayText()` | `feature/analytics` | [x] |
+| 2.4 | Implement `StatisticsCalculator`: min, max, mean, delta, percent (nullable), trend | `feature/analytics` | [x] |
+| 2.5 | Implement empty-set guard → `InsufficientData` (NOT zeros) | `feature/analytics` | [x] |
+| 2.6 | Implement single-point guard → `SinglePoint` with notice | `feature/analytics` | [x] |
+| 2.7 | Implement zero-base guard → `percent = null` with message | `feature/analytics` | [x] |
+| 2.8 | Implement `GetAnalyticsUseCase` (window calculation, calls `StatisticsCalculator`) | `feature/analytics` | [x] |
+| 2.9 | Implement parameterized `AnalyticsViewModel(7)` with `StateFlow<AnalyticsUiState>` | `feature/analytics` | [x] |
+| 2.10 | Reuse `AnalyticsViewModel(30)` for the monthly window | `feature/analytics` | [x] |
+| 2.11 | Map BigDecimal to chart-only Float/Double and actual relative date offsets in presentation | `feature/analytics` | [x] |
+| 2.12 | Implement shared `AnalyticsScreen` for 7 days (chart, stats cards, states) | `feature/analytics` | [x] |
+| 2.13 | Reuse `AnalyticsScreen` for 30 days | `feature/analytics` | [x] |
+| 2.14 | Implement `StatCard` composable (label + value card) | `feature/analytics` | [x] |
+| 2.15 | Implement `RateLineChart` composable using Vico (dates on X, rate on Y) | `feature/analytics` | [x] |
+| 2.16 | Implement trend text display ("↑ Rising" / "↓ Falling" / "→ No change") | `feature/analytics` | [x] |
+| 2.17 | Implement incomplete data notice composable | `feature/analytics` | [x] |
+| 2.18 | Add `testTag` modifiers to all analytics elements | `feature/analytics` | [x] |
+| 2.19 | Verify 7-day and 30-day screens fully functional on emulator after first data load | `feature/analytics` | [x] |
 | 2.20 | Create PR: `feature/analytics` → `main` | — | [ ] |
 
 ---
@@ -133,7 +133,7 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 
 ## Revision1.1 review additions
 
-Document creation status does not mean application acceptance. No APK/build/tests exist yet. Requirements below remain unchecked until implemented and verified.
+Historical Phase0 note: document creation alone did not mean application acceptance. Phase1/2 evidence is recorded below; Appium acceptance remains pending. Requirements below remain unchecked until implemented and verified.
 
 - [ ] Independent example: USD18 MDL/unit, EUR20 MDL/unit; 100 USD=90 EUR, reverse90 EUR=100 USD.
 - [ ] Same-date currency joins and effective-date deduplication verified.
@@ -149,4 +149,8 @@ Document creation status does not mean application acceptance. No APK/build/test
 
 ## Phase1 outcome · 04.11.2026
 
-Converter and Room/history infrastructure implemented; APK and unit/instrumentation/live/offline smoke checks passed. Full evidence: docs/phase1-verification.md. Task1.7 chart dependency deliberately moves with feature/analytics. Task1.28 PR remains pending. Future analytics/statistics/Appium acceptance stays unchecked.
+Converter and Room/history infrastructure implemented; APK and unit/instrumentation/live/offline smoke checks passed. Full evidence: docs/phase1-verification.md. Base-app PR #2 is merged. Chart dependency moved with feature/analytics; analytics evidence follows. Appium acceptance stays unchecked.
+
+## Phase2 outcome · 04.11.2026
+
+Analytics implementation, reactive Room observations, Vico2.2.0 and focused tests complete. Shared parameterized ViewModel/Screen replace duplicated weekly/monthly classes; PairObservation is the dated pair-domain model. See docs/phase2-verification.md. 43 JVM and11 deterministic Android tests passed; live/offline analytics checks each passed separately. Task2.20 PR is pending. Phase3 tasks remain the checklist for the dedicated test-stage review, including tests already introduced with features; no Appium execution is claimed.

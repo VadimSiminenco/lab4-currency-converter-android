@@ -4,6 +4,8 @@ import androidx.room.*
 import md.bnm.currencyconverter.domain.*
 import java.time.Instant
 import java.time.LocalDate
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 @Entity(tableName = "snapshots")
 data class SnapshotEntity(@PrimaryKey val date: String, val source: String, val fetchedAt: String)
@@ -25,6 +27,10 @@ interface RateDao {
     suspend fun latest(date: String): SnapshotRows?
     @Transaction @Query("SELECT * FROM snapshots WHERE date BETWEEN :start AND :end ORDER BY date")
     suspend fun period(start: String, end: String): List<SnapshotRows>
+    @Transaction @Query("SELECT * FROM snapshots WHERE date BETWEEN :start AND :end ORDER BY date")
+    fun observePeriod(start: String, end: String): Flow<List<SnapshotRows>>
+    @Query("SELECT * FROM requests WHERE date BETWEEN :start AND :end ORDER BY date")
+    fun observeRequests(start: String, end: String): Flow<List<RequestEntity>>
     @Query("SELECT * FROM requests WHERE date = :date") suspend fun request(date: String): RequestEntity?
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun insertSnapshot(header: SnapshotEntity)
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun insertRates(rates: List<RateEntity>)
@@ -36,6 +42,10 @@ class RoomRateStore(private val database: RateDatabase) : RateLocalSource {
     private val dao get() = database.rates()
     override suspend fun latestOnOrBefore(date: LocalDate) = dao.latest(date.toString())?.toDomain()
     override suspend fun inPeriod(start: LocalDate, end: LocalDate) = dao.period(start.toString(), end.toString()).map { it.toDomain() }
+    override fun observePeriod(start: LocalDate, end: LocalDate) = dao.observePeriod(start.toString(), end.toString()).map { rows -> rows.map { it.toDomain() } }
+    override fun observeFetchRecords(start: LocalDate, end: LocalDate) = dao.observeRequests(start.toString(), end.toString()).map { rows ->
+        rows.map { DateFetch(LocalDate.parse(it.date), it.effectiveDate?.let(LocalDate::parse), FetchKind.valueOf(it.kind), Instant.parse(it.checkedAt)) }
+    }
     override suspend fun fetchRecord(date: LocalDate): DateFetch? = dao.request(date.toString())?.let {
         DateFetch(LocalDate.parse(it.date), it.effectiveDate?.let(LocalDate::parse), FetchKind.valueOf(it.kind), Instant.parse(it.checkedAt))
     }

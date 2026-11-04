@@ -30,10 +30,10 @@ Native Android application for currency conversion and exchange-rate analytics. 
 | Type system | Dynamic | Static, null-safe |
 | Concurrency model | [заполнить] | Kotlin Coroutines, structured concurrency |
 | BigDecimal handling | `decimal.Decimal` | `java.math.BigDecimal` |
-| XML parsing | [заполнить: library used in Lab 3] | portable XML pull-parser API plus JVM implementation (version pending) |
+| XML parsing | [заполнить: library used in Lab 3] | XmlPullParser + kXML2 2.3.0 for JVM tests |
 | Data persistence | [заполнить] | Room (SQLite) |
 | UI | [заполнить] | Jetpack Compose |
-| DI / modularity | [заполнить] | Hilt |
+| DI / modularity | [заполнить] | Constructor injection; no Hilt |
 
 ### 2.2 Comparative Experience
 
@@ -73,7 +73,7 @@ Native Android application for currency conversion and exchange-rate analytics. 
 
 | Tool | Version | Usage |
 |------|---------|-------|
-| Android Studio | AndroidStudio2026.1.4 configuration; codename not inferred | Installed; Kotlin/Compose implementation not started |
+| Android Studio | AndroidStudio2026.1.4 configuration; codename not inferred | Installed; Pixel_5 API34 used for device checks |
 | [заполнить: другие инструменты] | [версия] | [назначение] |
 
 ### 4.2 AI Tools
@@ -107,7 +107,7 @@ Native Android application for currency conversion and exchange-rate analytics. 
 ### 6.1 Unit Tests
 
 - **Command:** `./gradlew :app:testDebugUnitTest`
-- **Result:** [заполнить: passed X / failed Y / skipped Z]
+- **Result:** 43 passed / 0 failed / 0 skipped (04.11.2026, Phase2)
 - **Observations:** [заполнить]
 
 ### 6.2 E2E Tests (Appium)
@@ -185,3 +185,9 @@ OpenAI Codex generated the new Kotlin implementation, portable XML parser, Room 
 Actual results:19 JVM tests and6 deterministic Android checks passed;2 opt-in smoke cases are skipped in routine runs and each passed separately (real BNM; persistent cache after process restart without network). Gradle UTP failed to receive results; a documented direct instrumentation script was used. Compose semantics merging and exact-versus-substring assertions caused early UI test failures and were corrected. APK runs on Pixel5 API34. Graphs/statistics and Appium E2E remain future stages.
 
 These are factual development observations, not the student's personal experience. The substantive comparison of learning/working with Python versus Kotlin must still be completed by the student after using and explaining the application.
+
+## Phase2 factual update · 04.11.2026
+
+Weekly/monthly analytics implemented with a shared parameterized ViewModel/Screen, Vico2.2.0, Room Flow and exact decimal statistics. Empty/single/complete cases are explicit. Domain tests verify sorting, latest-correction deduplication, same-date pair joins, precision, non-shifted windows and sign-based trends. Double is limited to chart rendering. 43 JVM checks and11 deterministic Android checks passed;4 opt-in smoke tests are skipped in routine Android runs. Live analytics and offline process-relaunch analytics each passed in separate runs. Screenshots and commands: docs/phase2-verification.md.
+
+Git base-app PR #2 is merged. Analytics changes await their own PR. Appium Java Client/Selenium tests are not implemented or executed yet. Personal comparison and learning experience remain student-authored sections to complete before submission.

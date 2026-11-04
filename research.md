@@ -66,3 +66,9 @@ Antigravity drafted specs; Codex corrected reversed cross-rate, invented XML att
 ## Phase1 update · 04.11.2026
 
 The selected JDK17/Gradle8.13/AGP8.11.1/Kotlin2.2.21 candidate now builds successfully. KSP2.2.21-2.0.5, Room2.7.2, Compose BOM2025.09.00, OkHttp4.12.0, coroutines1.10.2 and kXML2 2.3.0 are pinned. Constructor injection used; no Hilt. Pixel5 API34 launched and actual app/tests ran. See docs/phase1-verification.md for counts, smoke evidence and UTP-runner limitation. Earlier no-build/no-device observations describe Phase0, not current status.
+
+## Phase2 verified choices · 04.11.2026
+
+Pinned Vico compose-m3 2.2.0 ([release](https://github.com/patrykandpatrick/vico/releases/tag/v2.2.0)); published sources were checked against the actual API. Gradle resolves/builds it with the existing toolchain. Device captures prove actual line rendering. X is elapsed calendar days from window start, not the list index. Fixed padded Y range is disclosed beside the graph; explicit four-label placement improves readability. Decimal-to-Double conversion occurs only inside RateLineChart.
+
+Shared AnalyticsViewModel(days=7|30) and AnalyticsScreen avoid duplicated logic. Reactive Room Flow and injected Clock provide current windows and testable updates. Resume synchronizes the reference date. Domain analytics never performs HTTP and all statistics use BigDecimal. Independent synthetic tests assert exact values and edge cases; real BNM smoke tests assert operational behaviour without freezing market values. See docs/phase2-verification.md for commands/results and screenshots. Appium/Selenium remains the next branch.
