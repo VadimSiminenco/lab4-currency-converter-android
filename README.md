@@ -1,56 +1,132 @@
-# 💱 Lab4 — Currency Converter for Android
+<div align="center">
 
-**Kotlin · Jetpack Compose · Material3 · Room · BNM XML · SOLID**
+# 💱 Moldova Currency · Android
 
-New Android converter plus 7/30-day exchange-rate analytics. Separate repository and independent Kotlin implementation; no Lab 3 Python code/fixtures may be copied or mechanically translated.
+**Kotlin · Jetpack Compose · Material 3 · Room · BNM XML**
 
-> **Phase 0: specifications revised 2026-11-04.** No Android project, wrapper, APK or tests exist yet. The following describes the planned application, not completed functionality.
+Официальные курсы, точные расчёты и данные, которые остаются на устройстве.
 
-## Three screens
+</div>
 
-| Screen | Planned content |
+## Статус лабораторной №4
+
+**Ветка `feature/base-app`: базовый конвертер реализован и проверен на Pixel 5 (Android 14 / API 34).** Реализация независима от Python-кода лабораторной №3; исходники и тесты написаны заново на Kotlin.
+
+| Этап | Состояние |
 |---|---|
-| Converter | MDL/EUR/USD/RON/GBP/UAH, positive amount, Swap, result and real source/date |
-| 7 Days | Current-calendar chart, min/max/mean, absolute/percentage change and trend |
-| 30 Days | Same analytics using fetched history from first load, without waiting a month |
+| Спецификация и исследование BNM | Завершены, изменения приняты через PR |
+| Android-проект, конвертер, Room и загрузка истории | Реализованы в этой ветке, PR ещё предстоит |
+| Графики и статистика за 7/30 дней | Следующий этап `feature/analytics` |
+| Полный набор Appium/Selenium E2E | Следующий этап `feature/tests` |
+| Итоговый REPORT и защита | Предстоят |
 
-Business calculations use BigDecimal. BNM Value/Nominal gives MDL per unit; A->B=rateA/rateB. Room cache survives process relaunch. Offline and partial/stale data are labelled. Empty/single-point data never implies zero change. Windows stay anchored to today, even with old cached snapshots.
+Вкладки **7 days** и **30 days** сейчас открывают обозначенные экраны следующего этапа. Это ещё не готовые графики и аналитика.
 
-## Documents
+## Что работает
 
-- [Specification](specs/001-mobile-currency-converter/spec.md)
-- [Plan](plan.md) · [Tasks](tasks.md) · [Data model](data-model.md)
-- [Research and environment](research.md)
-- [Real BNM evidence](specs/001-mobile-currency-converter/evidence/observations.json)
-- [Acceptance checklist](checklists/acceptance.md)
-- [Report in progress](REPORT.md)
+- MDL, EUR, USD, RON, GBP, UAH; прямая, обратная и cross-currency конвертация.
+- Проверка положительного десятичного ввода, Swap и сброс устаревшего результата.
+- `BigDecimal`, нормализация Value/Nominal, формула sourceMdl/targetMdl; округление результата HALF_UP до 2 знаков.
+- Одинаковые валюты возвращают исходную сумму без запроса курса.
+- BNM XML, реальная дата курса, источник и время получения.
+- Room-кэш, который переживает завершение процесса и повторный запуск; офлайн-предупреждение.
+- Получение истории за текущие 30 календарных дней, не более 3 одновременных запросов; повторное обновление недавних дат и всей истории по Refresh.
+- Неполный/невалидный снимок не заменяет валидный сохранённый набор; запросы и фактические даты хранятся отдельно.
 
-## Toolchain candidate
+## Интерфейс на Pixel 5
 
-JDK 17 for Gradle, Gradle 8.13, AGP 8.11.1, Kotlin 2.2.21 and matching org.jetbrains.kotlin.plugin.compose. compile/targetSdk36, minSdk 26. Official matrices support this candidate; actual build is pending. Remaining Compose BOM/Room/KSP/chart/HTTP/test dependencies must be selected and pinned during scaffold.
+| Конвертер | Результат реального BNM-запроса |
+|---|---|
+| <img src="docs/images/converter.png" width="270" alt="Экран конвертера на Pixel 5"> | <img src="docs/images/result.png" width="270" alt="Результат и источник курса"> |
 
-Local SDK: C:/Users/user/AppData/Local/Android/Sdk. Existing Pixel_5 AVD is API 34/google_apis/x86_64 and meets minSdk 26; no API36 emulator replacement is necessary. Android Studio's bundled JBR 25 is an IDE runtime, not the selected Gradle runtime. Configure Gradle JDK 17 explicitly in IDE and CLI.
+Пример за 04.11.2026: 100 USD → 1 806,44 MDL. Это наблюдение конкретного запуска, не фиксированное ожидание будущего теста.
 
-## Build/test commands — usable after scaffold
+## Открытие и запуск
+
+1. Android Studio → **File → Open** → корневая папка этого репозитория. Второй проект создавать не нужно.
+2. Выбери **JDK 17** для Gradle: Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK. JBR 25 может оставаться средой самой IDE.
+3. Дождись Gradle Sync. В Device Manager запусти существующий **Pixel_5 API 34**.
+4. Выбери модуль **app** и нажми **Run**.
+
+В PowerShell из корня проекта:
 
 ```powershell
+$env:JAVA_HOME='C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot'
 .\gradlew.bat :app:assembleDebug
 .\gradlew.bat :app:installDebug
-.\gradlew.bat :app:testDebugUnitTest
-.\gradlew.bat :app:connectedDebugAndroidTest
-.\gradlew.bat :e2e:test
 ```
 
-App local tests: JUnit4/Kotlin and portable JVM XML parser implementation. Room: Android instrumentation. E2E: Appium+UiAutomator2 with Kotlin/Appium Java Client and Selenium WebDriver APIs. Server/driver/client/Selenium exact compatibility, setup and APK flavor commands remain to be verified. Fake source/time belongs to an e2e flavor only; normal debug/release uses BNM. Compose IDs use root semantics testTagsAsResourceId, not Manifest meta-data.
+Путь JAVA_HOME выше соответствует проверенному компьютеру; на другой машине укажи собственный JDK 17. SDK задаётся Android Studio через `local.properties` либо стандартное локальное окружение. Сам файл local.properties не коммитится.
 
-## Source observations and limits
+APK: `app/build/outputs/apk/debug/app-debug.apk`. После установки открой **Moldova Currency** на устройстве.
 
-On2026-11-04 independently captured BNM responses for today, a historical date and a Sunday returned valid XML. A checked future date returned404. Fields are child elements, not attributes. Do not assume weekends are empty or claim an exact publication hour/official rate limit without evidence.
+## Проверки
 
-History requests current calendar dates, stores actual effective dates and deduplicates snapshots. Missing points are never fabricated. Revalidation of recent/full windows supports discovering corrections. Concurrency3/200ms batch spacing is an app policy, not a measured BNM SLA. No claim that 32 days guarantees full history.
+```powershell
+# Все текущие JVM unit-тесты одной командой
+.\gradlew.bat :app:testDebugUnitTest
 
-## Git workflow and tools
+# Детерминированные Android-проверки на указанном эмуляторе
+.\scripts\test-device.ps1 -Serial emulator-5554
 
-Stages: specs/mobile-currency-converter -> feature/base-app -> feature/analytics -> feature/tests -> docs/final. Meaningful incremental commits; changes to main only through reviewed PRs. Do not commit/push/merge automatically.
+# Дополнительная проверка живого BNM (нужна сеть)
+.\scripts\test-device.ps1 -Serial emulator-5554 -LiveBnm
 
-Antigravity drafted initial docs; Codex corrected them and researched real environment/source behavior. Record actually used tools/model names and genuine Python->Kotlin experience in REPORT. UI development and emulator verification follow specification PR; no manual source-code writing is required from the student.
+# Сначала выполни живую загрузку. Затем проверка без сети и после перезапуска:
+.\scripts\test-device.ps1 -Serial emulator-5554 -OfflineCache
+```
+
+Последний вариант временно включает режим полёта и отключает Wi-Fi **только на указанном эмуляторе**, завершает процесс приложения, проверяет сохранённые данные и восстанавливает исходные настройки в finally. Он не удаляет данные приложения.
+
+| Набор · проверка 04.11.2026 | Результат |
+|---|---|
+| JVM: валидация, XML, формулы, округление, репозиторий и история | **19 passed** |
+| Android: UI-валидация/действие Convert/навигация + 3 Room-проверки | **6 passed** |
+| Два опциональных smoke-теста в обычном Android-запуске | Пропускаются без специальных аргументов |
+| Живой BNM, отдельный запуск | **1 passed** |
+| Кэш после завершения процесса без сети, отдельный запуск | **1 passed** |
+
+Опциональные smoke-тесты не входят в обязательный детерминированный набор. Они не заменяют будущие Appium/Selenium E2E. В этой среде `connectedDebugAndroidTest` не смог получить результаты UTP, поэтому scripts/test-device запускает тот же AndroidJUnitRunner напрямую через ADB и проверяет его итоговый статус. JVM-отчёт: `app/build/reports/tests/testDebugUnitTest/index.html`.
+
+## Архитектура и SOLID
+
+```mermaid
+flowchart LR
+    UI["Compose UI"] --> VM["ConverterViewModel"]
+    VM --> UC["ConvertCurrency"]
+    UC --> RP["RateRepository interface"]
+    VM --> RP
+    CR["CachedRateRepository"] -. "implements" .-> RP
+    CR --> RS["RateRemoteSource interface"]
+    CR --> LS["RateLocalSource interface"]
+    BN["BnmRemoteSource"] -. "implements" .-> RS
+    RM["RoomRateStore"] -. "implements" .-> LS
+    BN --> XML["Portable XML parser"]
+    BN --> HTTP["OkHttp / BNM"]
+    RM --> DB[("Room / SQLite")]
+```
+
+Представление, расчёт, HTTP, XML и сохранение разделены. Бизнес-логика получает интерфейсы и Clock через конструктор, а не создаёт HTTP/Room сама. Общий репозиторий сохраняет данные независимо от реализации источника. Hilt не нужен для такого внедрения зависимостей. Подменяемость проверяется существующими fake-источниками и временным хранилищем; расширенные контрактные проверки запланированы на тестовый этап.
+
+Стабильные Compose `testTag` и root `testTagsAsResourceId` подготовлены для будущего Appium. Никаких специальных Manifest meta-data для этого нет.
+
+## Зафиксированные версии
+
+| Компонент | Версия |
+|---|---|
+| Gradle / JDK / AGP | 8.13 / 17 / 8.11.1 |
+| Kotlin + Compose compiler plugin | 2.2.21 |
+| KSP / Room | 2.2.21-2.0.5 / 2.7.2 |
+| Compose BOM / Material 3 | 2025.09.00 / 1.3.2 через BOM |
+| compileSdk / targetSdk / minSdk | 36 / 36 / 26 |
+| OkHttp / coroutines / kXML2 | 4.12.0 / 1.10.2 / 2.3.0 |
+
+Gradle Wrapper включён в репозиторий и проверяет SHA256 дистрибутива. Библиотека графиков подключится вместе с реализацией аналитики; сейчас неиспользуемая зависимость не добавлена.
+
+## Документы и рабочий процесс
+
+[Спецификация](specs/001-mobile-currency-converter/spec.md) · [План](plan.md) · [Задачи](tasks.md) · [Модель данных](data-model.md) · [Исследование](research.md) · [Приёмка](checklists/acceptance.md) · [REPORT](REPORT.md) · [Проверка базового этапа](docs/phase1-verification.md)
+
+Ветки этапов: specs/mobile-currency-converter → feature/base-app → feature/analytics → feature/tests → docs/final. Изменения main — только через PR. Текущие изменения не закоммичены и не отправлены автоматически.
+
+Antigravity подготовил первоначальные документы; Codex исправил спецификации и реализовал/проверил этот Kotlin-этап. Названия моделей и личный опыт студента в REPORT заполняются только по фактическим сведениям.

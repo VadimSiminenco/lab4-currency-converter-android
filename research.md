@@ -16,7 +16,7 @@ Revision1.1.0 · 2026-11-04. Separate observed facts, selected candidates and bu
 
 Missing SDK environment variables do not mean the SDK is absent. compileSdk 36 does not require API36 on the emulator: the existing API 34 AVD meets minSdk 26.
 
-## Selected baseline, build not yet proven
+## Phase0 baseline before implementation (historical)
 
 JDK 17 for Gradle and bytecode; Gradle 8.13; AGP 8.11.1; Kotlin Android and org.jetbrains.kotlin.plugin.compose (version 2.2.21); compile/targetSdk36, minSdk 26.
 
@@ -62,3 +62,7 @@ App local tests: JUnit4 and portable XmlPullParser API with a JVM implementation
 ## Initial AI errors corrected
 
 Antigravity drafted specs; Codex corrected reversed cross-rate, invented XML attributes, blanket weekend claims, unproven toolchain compatibility, wrong Manifest switch, stale-window shifting, misleading one-point trend and scientific-notation precision claim. Record these as real specification-stage errors, not implementation/test results. No Lab 3 source/fixture was copied or translated.
+
+## Phase1 update · 04.11.2026
+
+The selected JDK17/Gradle8.13/AGP8.11.1/Kotlin2.2.21 candidate now builds successfully. KSP2.2.21-2.0.5, Room2.7.2, Compose BOM2025.09.00, OkHttp4.12.0, coroutines1.10.2 and kXML2 2.3.0 are pinned. Constructor injection used; no Hilt. Pixel5 API34 launched and actual app/tests ran. See docs/phase1-verification.md for counts, smoke evidence and UTP-runner limitation. Earlier no-build/no-device observations describe Phase0, not current status.

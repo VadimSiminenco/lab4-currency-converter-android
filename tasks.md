@@ -17,7 +17,7 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 | 0.6 | Write `checklists/acceptance.md` | `specs/mobile-currency-converter` | [x] |
 | 0.7 | Write initial `README.md` | `specs/mobile-currency-converter` | [x] |
 | 0.8 | Write `REPORT.md` template | `specs/mobile-currency-converter` | [x] |
-| 0.9 | Create PR: `specs/mobile-currency-converter` → `main` | — | [ ] |
+| 0.9 | Create PR: `specs/mobile-currency-converter` → `main` | — | [x] |
 
 ---
 
@@ -25,33 +25,33 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 
 | # | Task | Branch | Status |
 |---|------|--------|--------|
-| 1.1 | Scaffold in existing repository; import in Android Studio (Compose, minSdk 26, Kotlin DSL) | `feature/base-app` | [ ] |
-| 1.2 | Verify `build.gradle.kts`: AGP 8.11.1, Kotlin 2.2.21, Gradle 8.13 with JDK 17 and matching Kotlin/Compose compiler plugin2.2.21 | `feature/base-app` | [ ] |
-| 1.3 | Add Compose BOM, Material 3, Navigation Compose | `feature/base-app` | [ ] |
-| 1.4 | Choose constructor injection; add Hilt only if justified; pin compatible KSP when required | `feature/base-app` | [ ] |
-| 1.5 | Add Room runtime + KSP | `feature/base-app` | [ ] |
-| 1.6 | Add OkHttp, Kotlin Coroutines | `feature/base-app` | [ ] |
-| 1.7 | Add Vico chart library | `feature/base-app` | [ ] |
-| 1.8 | Implement `Currency` enum (6 currencies) | `feature/base-app` | [ ] |
-| 1.9 | Implement `RateEntity` + `RateDao` + `AppDatabase` (Room) | `feature/base-app` | [ ] |
-| 1.10 | Implement `BigDecimalConverter` TypeConverter | `feature/base-app` | [ ] |
-| 1.11 | Implement `RateRemoteSource` interface | `feature/base-app` | [ ] |
-| 1.12 | Implement `RateLocalSource` interface | `feature/base-app` | [ ] |
-| 1.13 | Implement `RateRepository` interface | `feature/base-app` | [ ] |
-| 1.14 | Implement `BnmXmlFetcher` (OkHttp, coroutine) | `feature/base-app` | [ ] |
-| 1.15 | Implement portable XML pull parser for observed ValCurs and typed no-data/error/malformed outcomes | `feature/base-app` | [ ] |
-| 1.16 | Implement `RateRepositoryImpl` with Room upsert + BNM fetch | `feature/base-app` | [ ] |
-| 1.17 | Implement initial history fetch (current 30-calendar-day window, semaphore(3), 200ms batch delay) | `feature/base-app` | [ ] |
-| 1.18 | Wire narrow source/storage/Clock interfaces via constructor injection; Hilt optional | `feature/base-app` | [ ] |
-| 1.19 | Implement `BottomNavigation` with 3 tabs (Converter, 7 Days, 30 Days) | `feature/base-app` | [ ] |
-| 1.20 | Implement `ConverterScreen` composable (amount input, currency dropdowns, button, result) | `feature/base-app` | [ ] |
-| 1.21 | Implement `ConverterViewModel` with `StateFlow<ConverterUiState>` | `feature/base-app` | [ ] |
-| 1.22 | Implement `AmountValidator` (blank, non-numeric, ≤ 0, > 1B) | `feature/base-app` | [ ] |
-| 1.23 | Implement `ConvertUseCase` (BigDecimal, same-currency shortcut, cross-rate) | `feature/base-app` | [ ] |
-| 1.24 | Implement offline banner composable | `feature/base-app` | [ ] |
-| 1.25 | Enable root Compose semantics testTagsAsResourceId; no Manifest meta-data | `feature/base-app` | [ ] |
-| 1.26 | Add `testTag` modifiers to all interactive elements in `ConverterScreen` | `feature/base-app` | [ ] |
-| 1.27 | Verify app builds and runs on Pixel 5 emulator; converter screen functional | `feature/base-app` | [ ] |
+| 1.1 | Scaffold in existing repository; import in Android Studio (Compose, minSdk 26, Kotlin DSL) | `feature/base-app` | [x] |
+| 1.2 | Verify `build.gradle.kts`: AGP 8.11.1, Kotlin 2.2.21, Gradle 8.13 with JDK 17 and matching Kotlin/Compose compiler plugin2.2.21 | `feature/base-app` | [x] |
+| 1.3 | Add Compose BOM, Material 3, Navigation Compose | `feature/base-app` | [x] |
+| 1.4 | Choose constructor injection; add Hilt only if justified; pin compatible KSP when required | `feature/base-app` | [x] |
+| 1.5 | Add Room runtime + KSP | `feature/base-app` | [x] |
+| 1.6 | Add OkHttp, Kotlin Coroutines | `feature/base-app` | [x] |
+| 1.7 | Add chart library with analytics implementation (deferred to feature/analytics) | `feature/base-app` | [ ] |
+| 1.8 | Implement `Currency` enum (6 currencies) | `feature/base-app` | [x] |
+| 1.9 | Implement `RateEntity` + `RateDao` + `AppDatabase` (Room) | `feature/base-app` | [x] |
+| 1.10 | Persist decimal Strings with explicit domain/entity mapping (no redundant TypeConverter) | `feature/base-app` | [x] |
+| 1.11 | Implement `RateRemoteSource` interface | `feature/base-app` | [x] |
+| 1.12 | Implement `RateLocalSource` interface | `feature/base-app` | [x] |
+| 1.13 | Implement `RateRepository` interface | `feature/base-app` | [x] |
+| 1.14 | Implement `BnmXmlFetcher` (OkHttp, coroutine) | `feature/base-app` | [x] |
+| 1.15 | Implement portable XML pull parser for observed ValCurs and typed no-data/error/malformed outcomes | `feature/base-app` | [x] |
+| 1.16 | Implement `RateRepositoryImpl` with Room upsert + BNM fetch | `feature/base-app` | [x] |
+| 1.17 | Implement initial history fetch (current 30-calendar-day window, semaphore(3), 200ms batch delay) | `feature/base-app` | [x] |
+| 1.18 | Wire narrow source/storage/Clock interfaces via constructor injection; Hilt optional | `feature/base-app` | [x] |
+| 1.19 | Implement `BottomNavigation` with 3 tabs (Converter, 7 Days, 30 Days) | `feature/base-app` | [x] |
+| 1.20 | Implement `ConverterScreen` composable (amount input, currency dropdowns, button, result) | `feature/base-app` | [x] |
+| 1.21 | Implement `ConverterViewModel` with `StateFlow<ConverterUiState>` | `feature/base-app` | [x] |
+| 1.22 | Implement `AmountValidator` (blank, non-numeric, ≤ 0, > 1B) | `feature/base-app` | [x] |
+| 1.23 | Implement `ConvertUseCase` (BigDecimal, same-currency shortcut, cross-rate) | `feature/base-app` | [x] |
+| 1.24 | Implement offline banner composable | `feature/base-app` | [x] |
+| 1.25 | Enable root Compose semantics testTagsAsResourceId; no Manifest meta-data | `feature/base-app` | [x] |
+| 1.26 | Add `testTag` modifiers to all interactive elements in `ConverterScreen` | `feature/base-app` | [x] |
+| 1.27 | Verify app builds and runs on Pixel 5 emulator; converter screen functional | `feature/base-app` | [x] |
 | 1.28 | Create PR: `feature/base-app` → `main` | — | [ ] |
 
 ---
@@ -146,3 +146,7 @@ Document creation status does not mean application acceptance. No APK/build/test
 - [ ] Test-only fake source packaged only in e2e flavor; normal debug/release remain real-data builds.
 - [ ] Exact compatible dependency/server/client/driver versions pinned and build proven.
 - [ ] Personal Python/Kotlin comparison written after actual implementation experience.
+
+## Phase1 outcome · 04.11.2026
+
+Converter and Room/history infrastructure implemented; APK and unit/instrumentation/live/offline smoke checks passed. Full evidence: docs/phase1-verification.md. Task1.7 chart dependency deliberately moves with feature/analytics. Task1.28 PR remains pending. Future analytics/statistics/Appium acceptance stays unchecked.
