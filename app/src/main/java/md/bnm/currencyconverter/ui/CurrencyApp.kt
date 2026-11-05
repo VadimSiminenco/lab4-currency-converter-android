@@ -159,7 +159,7 @@ internal fun CurrencyPicker(label: String, currency: Currency, onSelect: (Curren
             OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth().height(52.dp).testTag(tag), shape = RoundedCornerShape(14.dp), contentPadding = PaddingValues(12.dp)) {
                 Text(currency.name, fontWeight = FontWeight.Bold); Spacer(Modifier.weight(1f)); Text("⌄")
             }
-            DropdownMenu(expanded, onDismissRequest = { expanded = false }, modifier = Modifier.heightIn(max = 360.dp)) {
+            DropdownMenu(expanded, onDismissRequest = { expanded = false }, modifier = Modifier.heightIn(max = 360.dp).semantics { testTagsAsResourceId = true }) {
                 Currency.entries.forEach { option -> DropdownMenuItem(text = { Text("${option.name} · ${option.displayName}") },
                     onClick = { onSelect(option); expanded = false }, modifier = Modifier.testTag("${tag}_${option.name}")) }
             }

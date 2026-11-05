@@ -79,7 +79,7 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 | 2.17 | Implement incomplete data notice composable | `feature/analytics` | [x] |
 | 2.18 | Add `testTag` modifiers to all analytics elements | `feature/analytics` | [x] |
 | 2.19 | Verify 7-day and 30-day screens fully functional on emulator after first data load | `feature/analytics` | [x] |
-| 2.20 | Create PR: `feature/analytics` → `main` | — | [ ] |
+| 2.20 | Create PR: `feature/analytics` → `main` | — | [x] |
 
 ---
 
@@ -88,31 +88,31 @@ Status legend: `[ ]` = todo · `[~]` = in progress · `[x]` = done · `[!]` = bl
 | # | Task | Branch | Status |
 |---|------|--------|--------|
 | **Unit Tests** | | | |
-| 3.1 | Configure JUnit4 app tests, JVM XML implementation and Room Android instrumentation | `feature/tests` | [ ] |
-| 3.2 | Write `BnmXmlParserTest`: valid XML, malformed XML, Errors XML, missing currencies | `feature/tests` | [ ] |
-| 3.3 | Write `BnmXmlParserTest`: Nominal ≠ 1 normalisation | `feature/tests` | [ ] |
-| 3.4 | Write `ConvertUseCaseTest`: MDL↔EUR, USD↔GBP, same-currency | `feature/tests` | [ ] |
-| 3.5 | Write `ConvertUseCaseTest`: precision, DECIMAL128 division, monetary HALF_UP to2dp | `feature/tests` | [ ] |
-| 3.6 | Write `StatisticsCalculatorTest`: min, max, mean for complete datasets | `feature/tests` | [ ] |
-| 3.7 | Write `StatisticsCalculatorTest`: delta = last − first | `feature/tests` | [ ] |
-| 3.8 | Write `StatisticsCalculatorTest`: percent = (last − first) / first × 100 | `feature/tests` | [ ] |
-| 3.9 | Write `StatisticsCalculatorTest`: empty set → `InsufficientData` | `feature/tests` | [ ] |
-| 3.10 | Write `StatisticsCalculatorTest`: single point → `SinglePoint` with notice | `feature/tests` | [ ] |
-| 3.11 | Write `StatisticsCalculatorTest`: zero base rate → percent = null | `feature/tests` | [ ] |
-| 3.12 | Write `StatisticsCalculatorTest`: trend detection (rising, falling, no-change, tiny positive/negative deltas) | `feature/tests` | [ ] |
-| 3.13 | Write `AmountValidatorTest`: empty, negative, zero, non-numeric, too large | `feature/tests` | [ ] |
-| 3.14 | Confirm all unit tests pass: `./gradlew :app:testDebugUnitTest` | `feature/tests` | [ ] |
+| 3.1 | Configure JUnit4 app tests, JVM XML implementation and Room Android instrumentation | `feature/tests` | [x] |
+| 3.2 | Write `BnmXmlParserTest`: valid XML, malformed XML, Errors XML, missing currencies | `feature/tests` | [x] |
+| 3.3 | Write `BnmXmlParserTest`: Nominal ≠ 1 normalisation | `feature/tests` | [x] |
+| 3.4 | Write `ConvertUseCaseTest`: MDL↔EUR, USD↔GBP, same-currency | `feature/tests` | [x] |
+| 3.5 | Write `ConvertUseCaseTest`: precision, DECIMAL128 division, monetary HALF_UP to2dp | `feature/tests` | [x] |
+| 3.6 | Write `StatisticsCalculatorTest`: min, max, mean for complete datasets | `feature/tests` | [x] |
+| 3.7 | Write `StatisticsCalculatorTest`: delta = last − first | `feature/tests` | [x] |
+| 3.8 | Write `StatisticsCalculatorTest`: percent = (last − first) / first × 100 | `feature/tests` | [x] |
+| 3.9 | Write `StatisticsCalculatorTest`: empty set → `InsufficientData` | `feature/tests` | [x] |
+| 3.10 | Write `StatisticsCalculatorTest`: single point → `SinglePoint` with notice | `feature/tests` | [x] |
+| 3.11 | Write `StatisticsCalculatorTest`: zero base rate → percent = null | `feature/tests` | [x] |
+| 3.12 | Write `StatisticsCalculatorTest`: trend detection (rising, falling, no-change, tiny positive/negative deltas) | `feature/tests` | [x] |
+| 3.13 | Write `AmountValidatorTest`: empty, negative, zero, non-numeric, too large | `feature/tests` | [x] |
+| 3.14 | Confirm all unit tests pass: `./gradlew :app:testDebugUnitTest` | `feature/tests` | [x] |
 | **E2E Tests** | | | |
-| 3.15 | Implement `FakeRemoteSource` with deterministic fixture data (multiple pairs × current 30-day window, gaps, fake Clock and failure cases) | `feature/tests` | [ ] |
-| 3.16 | Create e2e flavor with FakeRemoteSource/Clock; normal debug/release retain BNM | `feature/tests` | [ ] |
-| 3.17 | Check/pin compatible Appium server/UiAutomator2/Java Client/Selenium matrix; create Kotlin JVM e2e module | `feature/tests` | [ ] |
-| 3.18 | Write `ConversionE2ETest`: enter amount, select currencies, tap Convert, assert result | `feature/tests` | [ ] |
-| 3.19 | Write `Analytics7E2ETest`: navigate to 7-day tab, assert dated chart + actual metric values and coverage | `feature/tests` | [ ] |
-| 3.20 | Write `Analytics30E2ETest`: navigate to 30-day tab, assert dated chart + actual metric values and coverage | `feature/tests` | [ ] |
-| 3.21 | Write `ErrorStateE2ETest`: simulate offline, assert error banner + retry button | `feature/tests` | [ ] |
-| 3.22 | Write `OfflineCacheE2ETest`: load data, disconnect, restart app, assert cached data + banner | `feature/tests` | [ ] |
-| 3.23 | Write `SameCurrencyE2ETest`: select EUR→EUR, assert inline notice, no network call | `feature/tests` | [ ] |
-| 3.24 | Document E2E run command and Appium server setup in README | `feature/tests` | [ ] |
+| 3.15 | Implement `FakeRemoteSource` with deterministic fixture data (multiple pairs × current 30-day window, gaps, fake Clock and failure cases) | `feature/tests` | [x] |
+| 3.16 | Create e2e flavor with FakeRemoteSource/Clock; normal debug/release retain BNM | `feature/tests` | [x] |
+| 3.17 | Check/pin compatible Appium server/UiAutomator2/Java Client/Selenium matrix; create Kotlin JVM e2e module | `feature/tests` | [x] |
+| 3.18 | Write `ConversionE2ETest`: enter amount, select currencies, tap Convert, assert result | `feature/tests` | [x] |
+| 3.19 | Write `Analytics7E2ETest`: navigate to 7-day tab, assert dated chart + actual metric values and coverage | `feature/tests` | [x] |
+| 3.20 | Write `Analytics30E2ETest`: navigate to 30-day tab, assert dated chart + actual metric values and coverage | `feature/tests` | [x] |
+| 3.21 | Write `ErrorStateE2ETest`: simulate offline, assert error banner + retry button | `feature/tests` | [x] |
+| 3.22 | Write `OfflineCacheE2ETest`: load data, disconnect, restart app, assert cached data + banner | `feature/tests` | [x] |
+| 3.23 | Write `SameCurrencyE2ETest`: select EUR→EUR, assert inline notice, no network call | `feature/tests` | [x] |
+| 3.24 | Document E2E run command and Appium server setup in README | `feature/tests` | [x] |
 | 3.25 | Create PR: `feature/tests` → `main` | — | [ ] |
 
 ---
@@ -154,3 +154,7 @@ Converter and Room/history infrastructure implemented; APK and unit/instrumentat
 ## Phase2 outcome · 04.11.2026
 
 Analytics implementation, reactive Room observations, Vico2.2.0 and focused tests complete. Shared parameterized ViewModel/Screen replace duplicated weekly/monthly classes; PairObservation is the dated pair-domain model. See docs/phase2-verification.md. 43 JVM and11 deterministic Android tests passed; live/offline analytics checks each passed separately. Task2.20 PR is pending. Phase3 tasks remain the checklist for the dedicated test-stage review, including tests already introduced with features; no Appium execution is claimed.
+
+## Phase3 outcome · 05.11.2026
+
+Analytics PR #3 is merged. feature/tests adds an opt-in e2e flavor, Kotlin JVM Appium/Selenium suite, pinned tool versions and six HTTP/XML-vs-in-memory provider contract checks.49 JVM tests,11 deterministic Android tests and6 Appium E2E passed. Ordinary APK DEX inspected: no FakeRemoteSource or exported E2eControlReceiver. Separate popup-window testTagsAsResourceId propagation corrected after the first external automation run. See docs/phase3-verification.md and docs/e2e.md. Task3.25 PR pending; final report/personal comparison remain Phase4.

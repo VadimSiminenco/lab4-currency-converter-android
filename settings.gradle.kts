@@ -5,3 +5,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MoldovaCurrency"
 include(":app")
+
+include(":e2e-tests")
