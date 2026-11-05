@@ -1,0 +1,9 @@
+{
+  "name": "lab4-appium-tools",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "appium": "3.1.0",
+    "appium-uiautomator2-driver": "5.0.3"
+  }
+}

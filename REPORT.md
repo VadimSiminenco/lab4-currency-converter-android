@@ -107,12 +107,12 @@ Native Android application for currency conversion and exchange-rate analytics. 
 ### 6.1 Unit Tests
 
 - **Command:** `./gradlew :app:testDebugUnitTest`
-- **Result:** 43 passed / 0 failed / 0 skipped (04.11.2026, Phase2)
+- **Result:** 49 passed / 0 failed / 0 skipped (05.11.2026, Phase 3)
 - **Observations:** [заполнить]
 
 ### 6.2 E2E Tests (Appium)
 
-- **Result:** [заполнить: passed X / failed Y]
+- **Result:** 6 passed / 0 failed (Pixel 5 API 34, 05.11.2026)
 - **Flaky tests:** [заполнить: none / list]
 - **Observations:** [заполнить]
 
@@ -191,3 +191,9 @@ These are factual development observations, not the student's personal experienc
 Weekly/monthly analytics implemented with a shared parameterized ViewModel/Screen, Vico2.2.0, Room Flow and exact decimal statistics. Empty/single/complete cases are explicit. Domain tests verify sorting, latest-correction deduplication, same-date pair joins, precision, non-shifted windows and sign-based trends. Double is limited to chart rendering. 43 JVM checks and11 deterministic Android checks passed;4 opt-in smoke tests are skipped in routine Android runs. Live analytics and offline process-relaunch analytics each passed in separate runs. Screenshots and commands: docs/phase2-verification.md.
 
 Git base-app PR #2 is merged. Analytics changes await their own PR. Appium Java Client/Selenium tests are not implemented or executed yet. Personal comparison and learning experience remain student-authored sections to complete before submission.
+
+## Phase3 factual update · 05.11.2026
+
+Kotlin Appium Java Client9.5.0 / Selenium4.34.0 E2E run against Appium3.1.0 and UiAutomator2 5.0.3:6 passed. Native checks:11 passed plus4 opt-in cases skipped; JVM:49 passed, including6 provider contract cases comparing in-memory and real HTTP/XML implementations. Test-only flavor has a separate applicationId; fake source, fixed Clock and control receiver are absent from ordinary APK DEX. Native UiAutomator2 screenshots are test-fixture evidence, not BNM market observations.
+
+Actual additional issues: npm recursive mkdir EPERM in this execution environment (pinned tarball contents verified against package-lock integrity and unpacked locally); initial external dropdown lookup failed because a Compose popup needs its own testTagsAsResourceId scope (corrected); emulator became unavailable and was manually restarted by the user. Phase3-verification and e2e guide contain commands/evidence. These are factual development notes; personal learning experience and final comparison remain to be written by the student.

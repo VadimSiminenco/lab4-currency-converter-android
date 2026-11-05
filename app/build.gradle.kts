@@ -4,7 +4,21 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
 }
+// The e2e flavor is opt-in so standard debug/release tasks and APK paths stay stable.
+val e2eBuild = providers.gradleProperty("e2e").orNull == "true"
 android {
+    if (e2eBuild) {
+        flavorDimensions += "environment"
+        productFlavors {
+            create("e2e") {
+                dimension = "environment"
+                applicationIdSuffix = ".e2e"
+                versionNameSuffix = "-e2e"
+            }
+        }
+    } else {
+        sourceSets.getByName("main").java.srcDir("src/production/java")
+    }
     namespace = "md.bnm.currencyconverter"
     compileSdk = 36
     buildToolsVersion = "36.0.0"
@@ -44,6 +58,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("net.sf.kxml:kxml2:2.3.0")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
