@@ -1,174 +1,138 @@
 <div align="center">
 
-# 💱 Moldova Currency · Android
+# 💱 Moldova Currency for Android
 
 **Kotlin · Jetpack Compose · Material 3 · Room · BNM XML**
 
-Официальные курсы, точные расчёты и данные, которые остаются на устройстве.
+Convert currencies using official rates from the National Bank of Moldova (BNM), explore exchange-rate trends, and access saved rates offline.
 
 </div>
 
-## Статус лабораторной №4
+## Run the app
 
-**Ветка `feature/tests`: конвертер, аналитика и Appium/Selenium E2E проверены на Pixel 5 (Android 14 / API 34).** Реализация независима от Python-кода лабораторной №3; исходники и тесты написаны заново на Kotlin.
+1. In Android Studio, choose **File → Open** and select the `lab4-currency-converter-android` folder.
+2. Set **Gradle JDK** to **JDK 17** under **Settings → Build, Execution, Deployment → Build Tools → Gradle**. Wait for Gradle Sync. The project uses Android SDK 36 to compile.
+3. Open **Device Manager** and start **Pixel_5 (API 34)**.
+4. Select the **app** run configuration and **Pixel_5**, then click **Run**. Android Studio builds, installs, and opens **Moldova Currency**.
 
-| Этап | Состояние |
-|---|---|
-| Спецификация и исследование BNM | Завершены, изменения приняты через PR |
-| Android-проект, конвертер, Room и загрузка истории | Приняты через PR #2 |
-| Графики и статистика за 7/30 дней | Приняты через PR #3 |
-| Appium/Selenium E2E |6 сценариев прошли; изменения ожидают PR |
-| Итоговый REPORT и защита | Предстоят |
-
-Вкладки **7 days** и **30 days** показывают выбранную валютную пару, график с реальными датами, минимум, максимум, среднее, абсолютное и процентное изменение, направление и сведения об источнике. Периоды заканчиваются сегодня; пропуски не заменяются выдуманными курсами.
-
-## Что работает
-
-- MDL, EUR, USD, RON, GBP, UAH; прямая, обратная и cross-currency конвертация.
-- Проверка положительного десятичного ввода, Swap и сброс устаревшего результата.
-- `BigDecimal`, нормализация Value/Nominal, формула sourceMdl/targetMdl; округление результата HALF_UP до 2 знаков.
-- Одинаковые валюты возвращают исходную сумму без запроса курса.
-- BNM XML, реальная дата курса, источник и время получения.
-- Room-кэш, который переживает завершение процесса и повторный запуск; офлайн-предупреждение.
-- Получение истории за текущие 30 календарных дней, не более 3 одновременных запросов; повторное обновление недавних дат и всей истории по Refresh.
-- Неполный/невалидный снимок не заменяет валидный сохранённый набор; запросы и фактические даты хранятся отдельно.
-
-- Аналитика обновляется из Room через Flow, включая данные, поступающие во время загрузки.
-- При одной точке доступны min/max/mean; сравнительные показатели неизвестны. При отсутствии данных нет фиктивных нулей.
-
-## Интерфейс на Pixel 5
-
-| Конвертер | Результат реального BNM-запроса |
-|---|---|
-| <img src="docs/images/converter.png" width="270" alt="Экран конвертера на Pixel 5"> | <img src="docs/images/result.png" width="270" alt="Результат и источник курса"> |
-
-Пример за 04.11.2026: 100 USD → 1 806,44 MDL. Это наблюдение конкретного запуска, не фиксированное ожидание будущего теста.
-
-| 7 дней · BNM | 30 дней · BNM | Статистика за месяц |
-|---|---|---|
-| <img src="docs/images/analytics-7.png" width="240" alt="Недельный график"> | <img src="docs/images/analytics-30.png" width="240" alt="Месячный график"> | <img src="docs/images/analytics-30-stats.png" width="240" alt="Шесть показателей за месяц"> |
-
-Снимки сняты с приложения на Pixel 5. Цвет обозначает направление, которое также указано текстом и стрелкой. Ось Y приближает наблюдаемый диапазон и не начинается обязательно с нуля; линии соединяют существующие даты.
-
-## Открытие и запуск
-
-1. Android Studio → **File → Open** → корневая папка этого репозитория. Второй проект создавать не нужно.
-2. Выбери **JDK 17** для Gradle: Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK. JBR 25 может оставаться средой самой IDE.
-3. Дождись Gradle Sync. В Device Manager запусти существующий **Pixel_5 API 34**.
-4. Выбери модуль **app** и нажми **Run**.
-
-В PowerShell из корня проекта:
+To build and install from PowerShell, start the emulator first and run:
 
 ```powershell
-$env:JAVA_HOME='C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot'
+cd "C:\Users\user\lab4-currency-converter-android"
+$env:JAVA_HOME = 'C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot'
 .\gradlew.bat :app:assembleDebug
 .\gradlew.bat :app:installDebug
 ```
 
-Путь JAVA_HOME выше соответствует проверенному компьютеру; на другой машине укажи собственный JDK 17. SDK задаётся Android Studio через `local.properties` либо стандартное локальное окружение. Сам файл local.properties не коммитится.
+Open **Moldova Currency** on the emulator after installation. The APK is generated at `app/build/outputs/apk/debug/app-debug.apk`. On another computer, use its local JDK 17 and Android SDK paths. Android Studio can write the SDK path to the ignored `local.properties` file.
 
-APK: `app/build/outputs/apk/debug/app-debug.apk`. После установки открой **Moldova Currency** на устройстве.
+Connect the emulator to the internet for the first rate download. Once rates have been saved, the app can use its local cache offline.
 
-## Проверки
+## Features
+
+- Convert between MDL, EUR, USD, RON, GBP, and UAH, including cross-currency pairs. Swap the currencies and validate positive decimal amounts before converting.
+- Normalize the BNM rate by its nominal quantity and calculate the cross-rate as `sourceMdl / targetMdl`. Calculations use `BigDecimal` and round converted amounts to two decimal places with `HALF_UP`.
+- Return the entered amount for a same-currency conversion without requesting a rate.
+- Display the effective rate date, data source, and retrieval time. Room keeps valid snapshots across process restarts and the app shows an offline notice when it uses saved data.
+- Download rate history for the current 30 calendar days with up to three concurrent requests. The app can refresh recent dates and reload the full history through **Refresh**. Invalid or incomplete downloads leave valid snapshots available.
+- Explore **7 days** and **30 days** views with a dated chart, minimum, maximum, mean, absolute change, percentage change, and trend. The windows end today and use the effective dates available in Room. A single observation provides the minimum, maximum, and mean. Change metrics require a comparison.
+
+## Screenshots from Pixel 5
+
+| Converter | Conversion result and source |
+| --- | --- |
+| <img src="docs/images/converter.png" width="270" alt="Currency converter on Pixel 5"> | <img src="docs/images/result.png" width="270" alt="Conversion result with the BNM rate source"> |
+
+The screenshots capture a live BNM result from November 4, 2026, when 100 USD converted to 1,806.44 MDL.
+
+| 7-day chart | 30-day chart | 30-day statistics |
+| --- | --- | --- |
+| <img src="docs/images/analytics-7.png" width="240" alt="Seven-day exchange-rate chart"> | <img src="docs/images/analytics-30.png" width="240" alt="Thirty-day exchange-rate chart"> | <img src="docs/images/analytics-30-stats.png" width="240" alt="Six statistics for the thirty-day window"> |
+
+The charts connect available observations and scale the vertical axis to the observed range. Color, text, and an arrow indicate the trend.
+
+## Tests
+
+Run these commands from the repository root with JDK 17 selected. Start the emulator before running the device and Appium suites.
 
 ```powershell
-# Все текущие JVM unit-тесты одной командой
 .\gradlew.bat :app:testDebugUnitTest
-
-# Детерминированные Android-проверки на указанном эмуляторе
 .\scripts\test-device.ps1 -Serial emulator-5554
+.\scripts\test-e2e.ps1 -Serial emulator-5554
+```
 
-# Дополнительная проверка живого BNM (нужна сеть)
+| Suite | Verified result |
+| --- | --- |
+| JVM unit and provider contract tests | 49 passed |
+| Android UI and Room checks on Pixel 5 (Android 14, API 34) | 11 passed |
+| Appium/Selenium end-to-end scenarios on Pixel 5 | 6 passed |
+
+The device script invokes AndroidJUnitRunner through ADB. It also supports four optional smoke checks. Run each live check before its corresponding offline check so the emulator has saved data.
+
+```powershell
 .\scripts\test-device.ps1 -Serial emulator-5554 -LiveBnm
-
-# Сначала выполни живую загрузку. Затем проверка без сети и после перезапуска:
 .\scripts\test-device.ps1 -Serial emulator-5554 -OfflineCache
-
-# Реальные недельный и месячный графики, затем их офлайн-перезапуск
 .\scripts\test-device.ps1 -Serial emulator-5554 -LiveAnalytics
 .\scripts\test-device.ps1 -Serial emulator-5554 -OfflineAnalytics
 ```
 
-Последний вариант временно включает режим полёта и отключает Wi-Fi **только на указанном эмуляторе**, завершает процесс приложения, проверяет сохранённые данные и восстанавливает исходные настройки в finally. Он не удаляет данные приложения.
+The offline checks temporarily disable networking on the selected emulator, restart the app, verify saved data, and restore the previous network settings. The JVM report is generated at `app/build/reports/tests/testDebugUnitTest/index.html`.
 
-| Набор · проверка 05.11.2026 | Результат |
-|---|---|
-| JVM: конвертер, XML, репозиторий, статистика, окна дат и AnalyticsViewModel | **49 passed** |
-| Android: 3 converter/navigation + 5 analytics UI + 3 Room | **11 passed** |
-| Четыре опциональных smoke-теста в обычном Android-запуске | Пропускаются без специальных аргументов |
-| Живой BNM, отдельный запуск | **1 passed** |
-| Кэш конвертера после завершения процесса без сети (базовый этап) | **1 passed** |
-| Живые графики 7/30 дней, отдельный запуск | **1 passed** |
-| Аналитика из Room после завершения процесса без сети | **1 passed** |
+The Appium suite uses a separate **Moldova Currency E2E** app with deterministic data and a fixed date of November 4, 2026. It tests forward and reverse cross-currency conversion, both analytics windows, Retry recovery, same-currency conversion without a rate lookup, and cache persistence after an offline restart. It drives the native UI through UiAutomator2, Appium Java Client, and Selenium APIs. [E2E setup](docs/e2e.md) · [Verification results](docs/phase3-verification.md)
 
-Опциональные smoke-тесты не входят в обязательный детерминированный набор. Дополнительно реализованы6 воспроизводимых Appium/Selenium E2E; все прошли на Pixel5. В этой среде `connectedDebugAndroidTest` не смог получить результаты UTP, поэтому scripts/test-device запускает тот же AndroidJUnitRunner напрямую через ADB и проверяет его итоговый статус. JVM-отчёт: `app/build/reports/tests/testDebugUnitTest/index.html`.
-
-## Appium / Selenium
-
-```powershell
-$env:JAVA_HOME='C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot'
-.\scripts\test-e2e.ps1 -Serial emulator-5554
-```
-
-Отдельное приложение **Moldova Currency E2E** использует предсказуемые данные и дату04.11.2026. Обычная сборка продолжает обращаться к BNM. Проверяются прямой/обратный cross-rate, все6 показателей за7/30 дней, ошибка с восстановлением через Retry, EUR→EUR без нового запроса и кэш после перезапуска без сети. **6 passed**. Это native Android через UiAutomator2, Appium Java Client и Selenium API.
-
-Подробности установки, версии, тестовые данные, изоляция и команды: [E2E руководство](docs/e2e.md). Фактические результаты: [проверка этапа тестирования](docs/phase3-verification.md). Обычный APK проверен: FakeRemoteSource и E2eControlReceiver отсутствуют в его DEX.
-
-## Архитектура и SOLID
+## Architecture and SOLID
 
 ```mermaid
 flowchart LR
     UI["Compose UI"] --> VM["ConverterViewModel"]
-    UI --> AVM["AnalyticsViewModel · 7 / 30"]
-    AVM --> GA["GetAnalytics"]
-    GA --> ST["StatisticsCalculator · BigDecimal"]
-    AVM --> RP
-    RP --> FLOW["Room Flow · actual dated snapshots"]
+    UI --> AVM["AnalyticsViewModel"]
     VM --> UC["ConvertCurrency"]
+    AVM --> GA["GetAnalytics"]
+    GA --> ST["StatisticsCalculator"]
     UC --> RP["RateRepository interface"]
     VM --> RP
-    CR["CachedRateRepository"] -. "implements" .-> RP
+    AVM --> RP
+    CR["CachedRateRepository"] -. implements .-> RP
     CR --> RS["RateRemoteSource interface"]
     CR --> LS["RateLocalSource interface"]
-    BN["BnmRemoteSource"] -. "implements" .-> RS
-    RM["RoomRateStore"] -. "implements" .-> LS
-    BN --> XML["Portable XML parser"]
+    BN["BnmRemoteSource"] -. implements .-> RS
+    RM["RoomRateStore"] -. implements .-> LS
+    BN --> XML["XML parser"]
     BN --> HTTP["OkHttp / BNM"]
     RM --> DB[("Room / SQLite")]
 ```
 
-Представление, расчёт, HTTP, XML и сохранение разделены. Бизнес-логика получает интерфейсы и Clock через конструктор, а не создаёт HTTP/Room сама. Общий репозиторий сохраняет данные независимо от реализации источника. Hilt не нужен для такого внедрения зависимостей. Подменяемость проверяется существующими fake-источниками и временным хранилищем; шесть контрактных проверок сравнивают in-memory источник и настоящий HTTP/XML-адаптер через MockWebServer.
+Room emits dated snapshots through Flow, so the analytics screens update as data arrives. Statistics use decimal arithmetic. Chart rendering converts those values to floating point for Vico.
 
-Стабильные Compose `testTag` и root `testTagsAsResourceId` используются Appium; у DropdownMenu отдельное окно с тем же флагом semantics. Никаких специальных Manifest meta-data для этого нет.
+| Principle | Application in this project |
+| --- | --- |
+| Single Responsibility | Parsing, storage, calculations, UI state, and presentation have separate components. |
+| Open/Closed | New rate sources and stores can implement the existing interfaces. Adding a currency still requires edits to the currency list and UI. |
+| Liskov Substitution | Six contract checks exercise the HTTP/XML adapter and the in-memory implementation against shared expectations. |
+| Interface Segregation | Remote and local sources have separate interfaces. The repository interface serves both conversion and history. |
+| Dependency Inversion | Use cases and ViewModels receive domain interfaces and a clock through constructors. `AppContainer` wires the implementations. |
 
-### Как обоснованы SOLID
+Appium locates elements through Compose `testTag` values exposed as resource IDs. Dropdown popups enable `testTagsAsResourceId` in their own Compose window.
 
-| Принцип | Что есть в исходниках | Предел утверждения |
-|---|---|---|
-| SRP | XML parser, repository, ConvertCurrency, GetAnalytics, StatisticsCalculator, ViewModels и Compose разделены | Класс отвечает за свою часть работы |
-| OCP | BNM/Room можно заменить реализациями RateRemoteSource/RateLocalSource | Новая валюта всё ещё требует правки enum и UI; полной закрытости нет |
-| LSP | Fake-источники и репозитории проходят те же вызывающие use cases | Это практическое подтверждение подстановки; 6 контрактных проверок HTTP/XML и in-memory проходят |
-| ISP | Отдельные интерфейсы сети, хранилища и репозитория | RateRepository пока объединяет конвертер и историю; это осознанный компромисс |
-| DIP | Use cases и ViewModels зависят от domain-интерфейсов и Clock; сборка зависимостей в AppContainer | Нет прямого создания HTTP/Room в расчётах |
+## Pinned versions
 
-## Зафиксированные версии
-
-| Компонент | Версия |
-|---|---|
-| Gradle / JDK / AGP | 8.13 / 17 / 8.11.1 |
-| Kotlin + Compose compiler plugin | 2.2.21 |
+| Component | Version |
+| --- | --- |
+| Gradle / JDK / Android Gradle Plugin | 8.13 / 17 / 8.11.1 |
+| Kotlin and Compose compiler plugin | 2.2.21 |
 | KSP / Room | 2.2.21-2.0.5 / 2.7.2 |
-| Compose BOM / Material 3 | 2025.09.00 / 1.3.2 через BOM |
-| compileSdk / targetSdk / minSdk | 36 / 36 / 26 |
-| OkHttp / coroutines / kXML2 | 4.12.0 / 1.10.2 / 2.3.0 |
-| Vico compose-m3 | 2.2.0 |
+| Compose BOM / Material 3 | 2025.09.00 / 1.3.2 via the BOM |
+| Compile SDK / Target SDK / Minimum SDK | 36 / 36 / 26 |
+| OkHttp / Coroutines / kXML2 | 4.12.0 / 1.10.2 / 2.3.0 |
+| Vico Compose Material 3 | 2.2.0 |
 
-Gradle Wrapper включён в репозиторий и проверяет SHA256 дистрибутива. Vico 2.2.0 подключён и проверен сборкой и отрисовкой на Pixel 5. Double используется только при построении графика; расчёт статистики остаётся десятичным.
+The repository includes the Gradle Wrapper and pins the distribution checksum.
 
-## Документы и рабочий процесс
+## Lab 4 documentation
 
-[Спецификация](specs/001-mobile-currency-converter/spec.md) · [План](plan.md) · [Задачи](tasks.md) · [Модель данных](data-model.md) · [Исследование](research.md) · [Приёмка](checklists/acceptance.md) · [REPORT](REPORT.md) · [Проверка базового этапа](docs/phase1-verification.md) · [Проверка аналитики](docs/phase2-verification.md)
+The Kotlin application and tests were developed for Lab 4 independently of the Python implementation from Lab 3. The repository follows the specification, implementation, analytics, testing, and final report stages. Changes reach `main` through pull requests.
 
-Ветки этапов: specs/mobile-currency-converter → feature/base-app → feature/analytics → feature/tests → docs/final. Изменения main — только через PR. Текущие изменения не закоммичены и не отправлены автоматически.
-
-Antigravity подготовил первоначальные документы; Codex исправил спецификации и реализовал/проверил этот Kotlin-этап. Названия моделей и личный опыт студента в REPORT заполняются только по фактическим сведениям.
+- [Specification](specs/001-mobile-currency-converter/spec.md) · [Plan](plan.md) · [Tasks](tasks.md)
+- [Data model](data-model.md) · [Research](research.md) · [Acceptance checklist](checklists/acceptance.md)
+- [Base application verification](docs/phase1-verification.md) · [Analytics verification](docs/phase2-verification.md) · [Test suite verification](docs/phase3-verification.md)
+- [Lab report](REPORT.md)
